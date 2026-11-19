@@ -45,7 +45,7 @@
                             <h1 id="driver-brand-title" class="font-extrabold text-base sm:text-lg tracking-tight truncate">Mitra GoNusa</h1>
                             <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full">DRIVER</span>
                         </div>
-                        <p id="header-driver-info" class="text-xs text-slate-400 truncate mt-0.5">Hendra Wijaya • Honda Vario • B 4821 KZL</p>
+                        <p id="header-driver-info" class="text-xs text-slate-400 truncate mt-0.5">Hendra Wijaya • Honda Vario • DG 4821 KZL</p>
                     </div>
                 </div>
 
@@ -136,6 +136,7 @@
                             <div class="flex items-center flex-wrap gap-2">
                                 <span id="active-trip-service" class="bg-emerald-600 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-lg">NusaRide</span>
                                 <span id="active-trip-id" class="text-xs font-mono font-bold text-slate-500">#ORD-0000</span>
+                                <span id="active-trip-distance" class="hidden bg-sky-100 text-sky-800 text-[11px] font-bold px-2 py-0.5 rounded-full">0 km</span>
                             </div>
                             <h3 id="active-trip-customer" class="font-extrabold text-base text-slate-900 mt-1">Nama Pelanggan</h3>
                             <p id="active-trip-phone" class="text-xs text-slate-500 flex items-center gap-1.5">
@@ -154,14 +155,24 @@
                         </div>
                     </div>
 
-                    <!-- Detail Rute -->
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 flex items-start gap-3">
-                        <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
-                            <i class="fa-solid fa-route"></i>
+                    <!-- Detail Rute & Tombol Navigasi Google Maps -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-2.5">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-route"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <p class="text-[11px] font-bold text-slate-400 uppercase">Rute &amp; Detail Pesanan</p>
+                                <p id="active-trip-route" class="text-sm font-semibold text-slate-800 mt-0.5 break-words">-</p>
+                            </div>
                         </div>
-                        <div class="min-w-0">
-                            <p class="text-[11px] font-bold text-slate-400 uppercase">Rute & Detail Pesanan</p>
-                            <p id="active-trip-route" class="text-sm font-semibold text-slate-800 mt-0.5 break-words">-</p>
+                        <div id="active-trip-maps-wrap" class="hidden pt-2 border-t border-slate-200/80 flex flex-wrap gap-2">
+                            <a id="active-trip-gmaps-link" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 bg-sky-600 hover:bg-sky-700 text-white text-xs font-extrabold py-2.5 px-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
+                                <i class="fa-solid fa-diamond-turn-right"></i> Navigasi Rute di Google Maps
+                            </a>
+                            <a id="active-trip-pickup-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-300 text-xs font-bold py-2.5 px-3.5 rounded-xl transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-location-crosshairs"></i> Titik Jemput
+                            </a>
                         </div>
                     </div>
 
@@ -217,6 +228,12 @@
                     <button onclick="createSimulatedOrder()" class="bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
                         <i class="fa-solid fa-flask text-emerald-600"></i> Simulasi Order Tes
                     </button>
+                </div>
+
+                <!-- Info Error Sinkronisasi Server (jika terjadi) -->
+                <div id="radar-error-banner" class="hidden bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold rounded-2xl px-4 py-3 flex items-center justify-between gap-2">
+                    <span id="radar-error-text">Gagal terhubung ke Spreadsheet.</span>
+                    <button onclick="manualRefreshOrders()" class="bg-rose-600 text-white px-3 py-1 rounded-lg text-[11px] font-bold shrink-0">Coba Lagi</button>
                 </div>
 
                 <div id="incoming-orders-list" class="space-y-3">
@@ -354,7 +371,7 @@
                 <div class="flex items-center justify-center gap-2">
                     <input type="number" id="qris-amount-input" oninput="renderDriverQrisCode()" value="16000" min="1000" step="1000" class="w-40 text-center bg-white border border-emerald-300 rounded-xl py-1.5 text-base font-extrabold text-emerald-700 focus:outline-none focus:border-emerald-500">
                 </div>
-                <p class="text-[10px] text-slate-500">Mendukung Scan QRIS dari GoPay, DANA, OVO, ShopeePay & Mobile Banking</p>
+                <p class="text-[10px] text-slate-500">Mendukung Scan QRIS dari GoPay, DANA, OVO, ShopeePay &amp; Mobile Banking</p>
             </div>
 
             <button onclick="closeDriverQrisModal()" class="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 rounded-xl transition">
@@ -373,7 +390,7 @@
                     </div>
                     <div>
                         <h3 class="font-extrabold text-base text-slate-800">Pengaturan Mitra Driver</h3>
-                        <p class="text-[11px] text-slate-500">Profil kendaraan, QRIS, & koneksi Google Spreadsheet</p>
+                        <p class="text-[11px] text-slate-500">Profil kendaraan, QRIS, &amp; koneksi Google Spreadsheet</p>
                     </div>
                 </div>
                 <button onclick="closeDriverSettings()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600">
@@ -403,8 +420,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-slate-700 block mb-1">Kendaraan & Plat Nomor</label>
-                        <input type="text" id="drv-input-plate" placeholder="Honda Vario • B 4821 KZL" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-emerald-500">
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Kendaraan &amp; Plat Nomor</label>
+                        <input type="text" id="drv-input-plate" placeholder="Honda Vario • DG 4821 KZL" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold focus:outline-none focus:border-emerald-500">
                     </div>
                 </div>
 
@@ -416,7 +433,7 @@
                         </button>
                     </div>
                     <input type="url" id="drv-input-url" placeholder="https://script.google.com/macros/s/AKfycb.../exec" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-emerald-500">
-                    <p id="drv-conn-status" class="text-[11px] text-slate-400 mt-1">URL Google Apps Script sudah tertanam otomatis. Ubah hanya jika deploy ulang URL baru.</p>
+                    <p id="drv-conn-status" class="text-[11px] text-slate-400 mt-1">Pastikan URL ini 100% sama dengan URL di Aplikasi Pelanggan (index.html).</p>
                 </div>
 
                 <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 space-y-2">
@@ -462,7 +479,7 @@
 
     <!-- ==================== JAVASCRIPT APPLICATION LOGIC ==================== -->
     <script>
-        // URL Google Apps Script yang terpasang otomatis
+        // URL Google Apps Script yang terpasang otomatis (sama dengan index.html)
         const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbwuP2ifj5UomkILyzmPb1lXGL0k8D__oefpsRkQmGwycn5Ken9aW3spqNGFgIV6XwpE3w/exec';
 
         // State utama aplikasi mitra pengemudi
@@ -474,7 +491,7 @@
                 name: 'Hendra Wijaya',
                 phone: '0819-8877-6655',
                 vehicleType: 'Motor',
-                plate: 'Honda Vario • B 4821 KZL',
+                plate: 'Honda Vario • DG 4821 KZL',
                 bank: 'BCA',
                 accountNumber: '',
                 accountHolder: 'Hendra Wijaya',
@@ -504,6 +521,12 @@
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#039;');
+        }
+
+        function buildPickupMapsUrl(pickupCoords) {
+            const clean = String(pickupCoords || '').trim();
+            if (!clean) return '';
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(clean)}`;
         }
 
         function showToast(message, type = 'success') {
@@ -577,9 +600,30 @@
             modal.classList.remove('flex');
         }
 
+        function setRadarError(message) {
+            const banner = document.getElementById('radar-error-banner');
+            const text = document.getElementById('radar-error-text');
+            if (!banner || !text) return;
+            if (!message) {
+                banner.classList.add('hidden');
+            } else {
+                text.textContent = message;
+                banner.classList.remove('hidden');
+            }
+        }
+
         // ==================== PENYIMPANAN LOKAL & PENGATURAN ====================
         function loadDriverStorage() {
             try {
+                // Baca URL & nama aplikasi dari storage index.html jika satu domain
+                const appRawV2 = localStorage.getItem('gonusa_superapp_state_v2');
+                if (appRawV2) {
+                    const parsedV2 = JSON.parse(appRawV2);
+                    if (parsedV2.adminConfig) {
+                        if (parsedV2.adminConfig.spreadsheetUrl) driverState.spreadsheetUrl = parsedV2.adminConfig.spreadsheetUrl;
+                        if (parsedV2.adminConfig.appName) driverState.appName = parsedV2.adminConfig.appName;
+                    }
+                }
                 const adminRaw = localStorage.getItem('gonusa_admin_config');
                 if (adminRaw) {
                     const adminCfg = JSON.parse(adminRaw);
@@ -635,7 +679,7 @@
             document.getElementById('drv-input-plate').value = driverState.driver.plate;
             document.getElementById('drv-input-url').value = driverState.spreadsheetUrl || DEFAULT_GAS_URL;
             document.getElementById('drv-input-qris-url').value = driverState.driver.qrisImageUrl || '';
-            document.getElementById('drv-conn-status').textContent = 'URL Google Apps Script sudah tertanam otomatis. Ubah hanya jika deploy ulang URL baru.';
+            document.getElementById('drv-conn-status').textContent = 'Pastikan URL ini 100% sama dengan URL di Aplikasi Pelanggan (index.html).';
             document.getElementById('drv-conn-status').className = 'text-[11px] text-slate-400 mt-1';
 
             const modal = document.getElementById('modal-driver-settings');
@@ -676,7 +720,8 @@
             statusEl.textContent = 'Menghubungi server Google Apps Script...';
             statusEl.className = 'text-[11px] text-amber-600 font-semibold mt-1';
             try {
-                const res = await fetch(url);
+                const sep = url.includes('?') ? '&' : '?';
+                const res = await fetch(`${url}${sep}action=ping&_t=${Date.now()}`, { cache: 'no-store' });
                 const data = await res.json();
                 if (data && (data.status === 'active' || data.status === 'success')) {
                     statusEl.textContent = 'Terhubung! ' + (data.message || 'API Google Spreadsheet aktif.');
@@ -697,7 +742,7 @@
                 name: document.getElementById('drv-input-name').value.trim() || 'Hendra Wijaya',
                 phone: document.getElementById('drv-input-phone').value.trim() || '0819-8877-6655',
                 vehicleType: document.getElementById('drv-input-vehicle').value || 'Motor',
-                plate: document.getElementById('drv-input-plate').value.trim() || 'Honda Vario • B 4821 KZL',
+                plate: document.getElementById('drv-input-plate').value.trim() || 'Honda Vario • DG 4821 KZL',
                 qrisImageUrl: document.getElementById('drv-input-qris-url').value.trim()
             };
             driverState.spreadsheetUrl = document.getElementById('drv-input-url').value.trim() || DEFAULT_GAS_URL;
@@ -714,7 +759,7 @@
             syncDriverProfileToSheet();
             renderDriverDashboard();
             showToast('Profil Mitra & URL Database berhasil disimpan!');
-            if (driverState.isOnline) fetchOrdersNow();
+            fetchOrdersNow();
         }
 
         // ==================== STATUS ONLINE / OFFLINE & POLLING ====================
@@ -744,7 +789,7 @@
                 btn.className = 'flex items-center gap-2 px-3.5 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 border border-emerald-400 transition font-extrabold text-xs shadow-md';
                 dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-950 animate-ping';
                 label.textContent = 'ONLINE';
-                radar.innerHTML = '<i class="fa-solid fa-satellite-dish text-emerald-400 animate-pulse"></i> Aktif Memindai (4 dtk)';
+                radar.innerHTML = '<i class="fa-solid fa-satellite-dish text-emerald-400 animate-pulse"></i> Aktif Memindai (3.5 dtk)';
             } else {
                 btn.className = 'flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-700 hover:bg-slate-600 text-white border border-slate-600 transition font-bold text-xs shadow-sm';
                 dot.className = 'w-2.5 h-2.5 rounded-full bg-slate-400';
@@ -756,10 +801,10 @@
         function startPollingOrders() {
             stopPollingOrders();
             driverState.pollInterval = setInterval(() => {
-                if (driverState.isOnline) {
+                if (driverState.isOnline || driverState.activeOrder) {
                     fetchOrdersNow();
                 }
-            }, 4000);
+            }, 3500);
         }
 
         function stopPollingOrders() {
@@ -778,27 +823,41 @@
             }, 500);
         }
 
+        /**
+         * Helper kirim POST ke Google Apps Script tanpa diblokir CORS preflight.
+         */
+        async function postToSpreadsheet(payload) {
+            if (!driverState.spreadsheetUrl) return { status: 'local' };
+            try {
+                const res = await fetch(driverState.spreadsheetUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                const json = await res.json().catch(() => null);
+                if (json) return json;
+                return { status: res.ok ? 'success' : 'error', message: `HTTP ${res.status}` };
+            } catch (err) {
+                return { status: 'error', message: err.message };
+            }
+        }
+
         async function syncDriverProfileToSheet() {
             if (!driverState.spreadsheetUrl) return;
             const balInfo = getDriverAvailableBalance();
-            try {
-                await fetch(driverState.spreadsheetUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        action: 'upsert_driver',
-                        driverName: driverState.driver.name,
-                        driverPhone: driverState.driver.phone,
-                        vehicleType: driverState.driver.vehicleType,
-                        plate: driverState.driver.plate,
-                        workStatus: driverState.isOnline ? 'ONLINE' : 'OFFLINE',
-                        totalEarnings: balInfo.available
-                    })
-                });
-            } catch (e) {
-                // Abaikan jika gagal sementara
-            }
+            await postToSpreadsheet({
+                action: 'save_driver',
+                name: driverState.driver.name,
+                driverName: driverState.driver.name,
+                phone: driverState.driver.phone,
+                driverPhone: driverState.driver.phone,
+                vehicle: driverState.driver.vehicleType,
+                vehicleType: driverState.driver.vehicleType,
+                plate: driverState.driver.plate,
+                status: driverState.isOnline ? 'ONLINE' : 'OFFLINE',
+                workStatus: driverState.isOnline ? 'ONLINE' : 'OFFLINE',
+                totalEarnings: balInfo.available
+            });
         }
 
         async function fetchOrdersNow() {
@@ -809,31 +868,41 @@
 
             const sep = driverState.spreadsheetUrl.includes('?') ? '&' : '?';
 
-            // 1. Ambil daftar order
+            // 1. Ambil daftar order (sinkron dengan Code.gs: action=get_orders + anti-cache)
             try {
-                const ordersRes = await fetch(`${driverState.spreadsheetUrl}${sep}action=list_orders`);
+                const ordersRes = await fetch(
+                    `${driverState.spreadsheetUrl}${sep}action=get_orders&_t=${Date.now()}`,
+                    { cache: 'no-store' }
+                );
                 const data = await ordersRes.json();
-                if (data.status === 'success' && Array.isArray(data.orders)) {
-                    driverState.orders = data.orders;
+                if (data && data.status === 'success' && Array.isArray(data.orders || data.data)) {
+                    driverState.orders = data.orders || data.data;
+                    setRadarError('');
+                } else if (data && data.status === 'error') {
+                    setRadarError(`Server Apps Script: ${data.message || 'Gagal membaca pesanan'}`);
                 }
             } catch (err) {
-                // Abaikan error polling sementara
+                setRadarError('Tidak dapat terhubung ke Google Spreadsheet. Cek URL Web App & koneksi internet.');
             }
 
             // 2. Ambil daftar penarikan saldo
             try {
-                const wdRes = await fetch(`${driverState.spreadsheetUrl}${sep}action=list_withdrawals&driverPhone=${encodeURIComponent(driverState.driver.phone)}`);
+                const wdRes = await fetch(
+                    `${driverState.spreadsheetUrl}${sep}action=get_withdrawals&driverPhone=${encodeURIComponent(driverState.driver.phone)}&_t=${Date.now()}`,
+                    { cache: 'no-store' }
+                );
                 const wdData = await wdRes.json();
-                if (wdData.status === 'success' && Array.isArray(wdData.withdrawals)) {
-                    const serverIds = new Set(wdData.withdrawals.map(w => w.id));
+                if (wdData && wdData.status === 'success' && Array.isArray(wdData.withdrawals || wdData.data)) {
+                    const remoteWds = wdData.withdrawals || wdData.data;
+                    const serverIds = new Set(remoteWds.map(w => w.id));
                     const localPending = driverState.withdrawals.filter(w => !serverIds.has(w.id));
-                    driverState.withdrawals = [...localPending, ...wdData.withdrawals];
+                    driverState.withdrawals = [...localPending, ...remoteWds];
                     try {
                         localStorage.setItem('gonusa_driver_withdrawals', JSON.stringify(driverState.withdrawals));
                     } catch (e) {}
                 }
             } catch (err) {
-                // Abaikan error polling sementara
+                // Abaikan error polling penarikan sementara
             }
 
             const nowStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -853,11 +922,12 @@
         // ==================== KALKULASI SALDO & RENDER DASHBOARD ====================
         function getDriverAvailableBalance() {
             const allOrders = getCombinedOrders();
+            const myNameLower = (driverState.driver.name || '').trim().toLowerCase();
             const myCompleted = allOrders.filter(o =>
                 (o.status || '').toUpperCase() === 'SELESAI' &&
-                o.driverName === driverState.driver.name
+                (o.driverName || '').trim().toLowerCase() === myNameLower
             );
-            const totalEarnings = myCompleted.reduce((sum, o) => sum + Number(o.total || 0), 0);
+            const totalEarnings = myCompleted.reduce((sum, o) => sum + Number(o.total || o.price || 0), 0);
             const totalWithdrawn = driverState.withdrawals.reduce((sum, w) => {
                 if ((w.status || '').toUpperCase() === 'DITOLAK') return sum;
                 return sum + Number(w.amount || 0);
@@ -879,12 +949,11 @@
                     const parsed = JSON.parse(trimmed);
                     if (Array.isArray(parsed)) return parsed;
                 } catch (e) {
-                    // Jika format teks biasa per baris (mis. "Driver: halo\nPelanggan: oke")
                     return trimmed.split('\n').filter(Boolean).map(line => {
                         const isDriver = line.toLowerCase().startsWith('driver:');
                         return {
-                            sender: isDriver ? 'driver' : 'customer',
-                            text: line.replace(/^(driver|pelanggan|customer)\s*:\s*/i, '')
+                            sender: isDriver ? 'driver' : 'user',
+                            text: line.replace(/^(driver|pelanggan|customer|user)\s*:\s*/i, '')
                         };
                     });
                 }
@@ -894,18 +963,22 @@
 
         function renderDriverDashboard() {
             const allOrders = getCombinedOrders();
+            const myNameLower = (driverState.driver.name || '').trim().toLowerCase();
 
             // Pesanan aktif milik driver ini
             const myActive = allOrders.find(o => {
                 const st = (o.status || '').toUpperCase();
-                return o.driverName === driverState.driver.name &&
+                return (o.driverName || '').trim().toLowerCase() === myNameLower &&
                     (st === 'MENUJU_JEMPUT' || st === 'DALAM_PERJALANAN' || st === 'DI_LOKASI');
             }) || null;
 
             driverState.activeOrder = myActive;
 
             // Pesanan masuk yang belum diambil driver
-            const incoming = allOrders.filter(o => (o.status || '').toUpperCase() === 'MENCARI_DRIVER');
+            const incoming = allOrders.filter(o => {
+                const st = (o.status || '').toUpperCase();
+                return st === 'MENCARI_DRIVER' || st === 'PENDING' || st === 'MENUNGGU';
+            });
 
             // Bunyikan notifikasi jika ada order baru masuk saat ONLINE
             if (driverState.isOnline && incoming.length > driverState.lastKnownIncomingCount) {
@@ -917,7 +990,7 @@
             // Pesanan selesai milik driver ini
             const myCompleted = allOrders.filter(o =>
                 (o.status || '').toUpperCase() === 'SELESAI' &&
-                o.driverName === driverState.driver.name
+                (o.driverName || '').trim().toLowerCase() === myNameLower
             );
 
             // Perbarui Statistik Bar Atas
@@ -1002,13 +1075,46 @@
             document.getElementById('active-trip-fare').textContent = formatRupiah(order.total);
             document.getElementById('active-trip-payment').textContent = order.paymentMethod || 'Tunai';
 
+            // Jarak & Navigasi Google Maps
+            const distBadge = document.getElementById('active-trip-distance');
+            if (order.distanceKm) {
+                distBadge.textContent = `${order.distanceKm} km`;
+                distBadge.classList.remove('hidden');
+            } else {
+                distBadge.classList.add('hidden');
+            }
+
+            const mapsWrap = document.getElementById('active-trip-maps-wrap');
+            const gmapsLink = document.getElementById('active-trip-gmaps-link');
+            const pickupLink = document.getElementById('active-trip-pickup-link');
+            const routeUrl = order.googleMapsUrl || order.mapUrl || '';
+            const pickupUrl = buildPickupMapsUrl(order.pickupCoords);
+
+            if (routeUrl || pickupUrl) {
+                mapsWrap.classList.remove('hidden');
+                if (routeUrl) {
+                    gmapsLink.href = routeUrl;
+                    gmapsLink.classList.remove('hidden');
+                } else {
+                    gmapsLink.classList.add('hidden');
+                }
+                if (pickupUrl) {
+                    pickupLink.href = pickupUrl;
+                    pickupLink.classList.remove('hidden');
+                } else {
+                    pickupLink.classList.add('hidden');
+                }
+            } else {
+                mapsWrap.classList.add('hidden');
+            }
+
             // Tombol Aksi sesuai tahapan status
             const actionsBox = document.getElementById('active-trip-actions');
             const safeOrderId = escapeHtml(order.id);
             if (statusUpper === 'MENUJU_JEMPUT') {
                 actionsBox.innerHTML = `
                     <button onclick="updateOrderStatus('${safeOrderId}', 'DALAM_PERJALANAN')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs py-3 rounded-xl shadow flex items-center justify-center gap-2 transition">
-                        <i class="fa-solid fa-play"></i> Jemput & Mulai Perjalanan
+                        <i class="fa-solid fa-play"></i> Jemput &amp; Mulai Perjalanan
                     </button>
                     <button onclick="confirmCancelActiveOrder('${safeOrderId}')" class="w-full bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold text-xs py-3 rounded-xl transition">
                         Batalkan Order
@@ -1022,9 +1128,9 @@
                 `;
             }
 
-            // Render Chat
+            // Render Chat (mendukung properti order.chats maupun order.chat)
             const chatContainer = document.getElementById('driver-chat-messages');
-            const messages = parseChatMessages(order.chat);
+            const messages = parseChatMessages(order.chats || order.chat);
             if (messages.length === 0) {
                 chatContainer.innerHTML = `<p class="text-center text-slate-400 italic py-6">Belum ada pesan. Sapa pelanggan Anda di bawah.</p>`;
             } else {
@@ -1066,7 +1172,7 @@
                 container.innerHTML = `
                 <div class="bg-white border border-slate-200 rounded-3xl p-8 text-center space-y-2">
                     <div class="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-radar fa-spin"></i>
+                        <i class="fa-solid fa-satellite-dish animate-pulse"></i>
                     </div>
                     <h3 class="font-bold text-slate-800 text-sm">Memindai Pesanan di Sekitar Anda...</h3>
                     <p class="text-xs text-slate-500 max-w-sm mx-auto">Order baru dari aplikasi pelanggan akan muncul otomatis di sini. Anda juga bisa klik <b>Simulasi Order Tes</b> untuk mencoba alurnya.</p>
@@ -1077,6 +1183,7 @@
             container.innerHTML = incoming.map(o => {
                 const safeId = escapeHtml(o.id);
                 const disableAccept = Boolean(myActive);
+                const gmapsUrl = o.googleMapsUrl || o.mapUrl || '';
                 return `
                 <div class="bg-white border border-slate-200 hover:border-emerald-400 rounded-2xl p-4 shadow-sm transition space-y-3">
                     <div class="flex items-start justify-between gap-2">
@@ -1084,6 +1191,7 @@
                             <div class="flex items-center flex-wrap gap-1.5">
                                 <span class="bg-emerald-100 text-emerald-800 text-[11px] font-extrabold px-2.5 py-0.5 rounded-lg">${escapeHtml(o.service || 'Order')}</span>
                                 <span class="text-[11px] font-mono text-slate-400">#${safeId}</span>
+                                ${o.distanceKm ? `<span class="bg-sky-100 text-sky-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-route mr-0.5"></i>${o.distanceKm} km</span>` : ''}
                                 ${o.isDemo ? '<span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">SIMULASI</span>' : ''}
                             </div>
                             <p class="font-bold text-sm text-slate-900">${escapeHtml(o.customerName || 'Pelanggan')}</p>
@@ -1094,9 +1202,17 @@
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 rounded-xl p-2.5 text-xs text-slate-700 flex items-start gap-2">
-                        <i class="fa-solid fa-location-dot text-emerald-600 mt-0.5 shrink-0"></i>
-                        <span class="break-words">${escapeHtml(o.route || '-')}</span>
+                    <div class="bg-slate-50 rounded-xl p-2.5 text-xs text-slate-700 space-y-1.5">
+                        <div class="flex items-start gap-2">
+                            <i class="fa-solid fa-location-dot text-emerald-600 mt-0.5 shrink-0"></i>
+                            <span class="break-words">${escapeHtml(o.route || '-')}</span>
+                        </div>
+                        ${gmapsUrl ? `
+                        <div class="pt-1">
+                            <a href="${escapeHtml(gmapsUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[11px] font-bold text-sky-600 hover:underline">
+                                <i class="fa-solid fa-diamond-turn-right"></i> Lihat Rute di Google Maps
+                            </a>
+                        </div>` : ''}
                     </div>
 
                     <div class="flex items-center justify-between gap-2 pt-1">
@@ -1127,7 +1243,23 @@
             const { ord, isDemo } = findOrderMutable(orderId);
             if (!ord) return;
 
-            // Update optimis agar langsung responsif
+            if (!isDemo && driverState.spreadsheetUrl) {
+                showToast(`Mengonfirmasi penerimaan order #${orderId}...`, 'info');
+                const res = await postToSpreadsheet({
+                    action: 'accept_order',
+                    orderId,
+                    driverName: driverState.driver.name,
+                    driverPhone: driverState.driver.phone,
+                    plate: driverState.driver.plate
+                });
+
+                if (res && res.status === 'error') {
+                    showToast(res.message || 'Gagal menerima order (mungkin sudah diambil driver lain).', 'error');
+                    fetchOrdersNow();
+                    return;
+                }
+            }
+
             ord.status = 'MENUJU_JEMPUT';
             ord.driverName = driverState.driver.name;
             ord.plate = driverState.driver.plate;
@@ -1135,31 +1267,15 @@
             renderDriverDashboard();
 
             showToast(`Order #${orderId} berhasil diterima! Segera menuju titik jemput.`);
-
-            if (!isDemo && driverState.spreadsheetUrl) {
-                try {
-                    await fetch(driverState.spreadsheetUrl, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify({
-                            action: 'accept_order',
-                            orderId,
-                            driverName: driverState.driver.name,
-                            driverPhone: driverState.driver.phone,
-                            plate: driverState.driver.plate
-                        })
-                    });
-                } catch (e) {
-                    showToast('Gagal sinkron terima order ke server.', 'error');
-                }
+            if (!isDemo) {
+                setTimeout(() => fetchOrdersNow(), 800);
             }
         }
 
         function confirmCancelActiveOrder(orderId) {
             openConfirmModal(
                 'Batalkan Pesanan Aktif?',
-                'Pesanan ini akan dikembalikan atau dibatalkan dari daftar tugas Anda.',
+                'Pesanan ini akan dibatalkan dari daftar tugas Anda.',
                 () => updateOrderStatus(orderId, 'DIBATALKAN')
             );
         }
@@ -1172,6 +1288,23 @@
             if (isDemo) saveDemoOrdersToStorage();
             renderDriverDashboard();
 
+            if (!isDemo && driverState.spreadsheetUrl) {
+                const res = await postToSpreadsheet({
+                    action: 'update_order_status',
+                    orderId,
+                    status: newStatus,
+                    driverName: driverState.driver.name,
+                    driverPhone: driverState.driver.phone,
+                    plate: driverState.driver.plate,
+                    total: Number(ord.total || 0)
+                });
+                if (res && res.status === 'error') {
+                    showToast(res.message || 'Gagal memperbarui status order di Spreadsheet.', 'error');
+                    fetchOrdersNow();
+                    return;
+                }
+            }
+
             if (newStatus === 'DALAM_PERJALANAN') {
                 showToast('Perjalanan dimulai! Hati-hati di jalan.');
             } else if (newStatus === 'SELESAI') {
@@ -1181,24 +1314,8 @@
                 showToast(`Pesanan #${orderId} telah dibatalkan.`, 'info');
             }
 
-            if (!isDemo && driverState.spreadsheetUrl) {
-                try {
-                    await fetch(driverState.spreadsheetUrl, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify({
-                            action: 'update_order_status',
-                            orderId,
-                            status: newStatus,
-                            driverName: driverState.driver.name,
-                            driverPhone: driverState.driver.phone,
-                            total: Number(ord.total || 0)
-                        })
-                    });
-                } catch (e) {
-                    showToast('Gagal memperbarui status order di Spreadsheet.', 'error');
-                }
+            if (!isDemo) {
+                setTimeout(() => fetchOrdersNow(), 800);
             }
         }
 
@@ -1222,16 +1339,25 @@
             const { ord: targetOrd, isDemo } = findOrderMutable(ord.id);
             if (!targetOrd) return;
 
-            const currentMsgs = parseChatMessages(targetOrd.chat);
-            currentMsgs.push({ sender: 'driver', text, time: new Date().toISOString() });
+            const currentMsgs = parseChatMessages(targetOrd.chats || targetOrd.chat);
+            currentMsgs.push({
+                sender: 'driver',
+                text,
+                time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+            });
+            targetOrd.chats = currentMsgs;
             targetOrd.chat = currentMsgs;
 
             if (isDemo) {
                 saveDemoOrdersToStorage();
-                // Balasan simulasi singkat untuk demo
                 setTimeout(() => {
                     if (targetOrd.status !== 'SELESAI' && targetOrd.status !== 'DIBATALKAN') {
-                        targetOrd.chat.push({ sender: 'customer', text: 'Siap Pak, saya tunggu di depan ya!', time: new Date().toISOString() });
+                        targetOrd.chats.push({
+                            sender: 'user',
+                            text: 'Siap Pak, saya tunggu di depan ya!',
+                            time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+                        });
+                        targetOrd.chat = targetOrd.chats;
                         saveDemoOrdersToStorage();
                         renderDriverDashboard();
                     }
@@ -1241,19 +1367,13 @@
             renderDriverDashboard();
 
             if (!isDemo && driverState.spreadsheetUrl) {
-                try {
-                    await fetch(driverState.spreadsheetUrl, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify({
-                            action: 'send_chat',
-                            orderId: ord.id,
-                            sender: 'driver',
-                            text
-                        })
-                    });
-                } catch (e) {
+                const res = await postToSpreadsheet({
+                    action: 'send_chat',
+                    orderId: ord.id,
+                    sender: 'driver',
+                    text
+                });
+                if (res && res.status === 'error') {
                     showToast('Pesan tersimpan lokal, gagal mengirim ke Spreadsheet.', 'error');
                 }
             }
@@ -1267,9 +1387,9 @@
             }
 
             const samples = [
-                { service: 'NusaRide', customerName: 'Rina Marlina', customerPhone: '0813-4422-1190', route: 'Stasiun MRT Senayan → Gedung Cyber Kuningan', total: 22000, paymentMethod: 'Barcode QRIS' },
-                { service: 'NusaFood', customerName: 'Dimas Pratama', customerPhone: '0856-7788-3344', route: 'Ayam Geprek Nusantara → Jl. Kemang Raya No. 18 (2x Paket Komplit)', total: 48000, paymentMethod: 'NusaPay' },
-                { service: 'NusaSend', customerName: 'Siti Rahma', customerPhone: '0821-9090-5511', route: 'Kantor Sudirman → Apartemen Kalibata City (Dokumen Penting)', total: 30000, paymentMethod: 'Tunai' }
+                { service: 'NusaRide', customerName: 'Rina Marlina', customerPhone: '0813-4422-1190', route: 'Pusat Kota Tobelo → Pelabuhan Tobelo', total: 14000, paymentMethod: 'Barcode QRIS', distanceKm: 1.8, googleMapsUrl: 'https://www.google.com/maps/dir/?api=1&origin=1.7321,128.0061&destination=1.7276,128.0121&travelmode=driving' },
+                { service: 'NusaFood', customerName: 'Dimas Pratama', customerPhone: '0856-7788-3344', route: 'Warung Ikan Bakar Pantai Tobelo → Jl. Kemakmuran (2x Paket)', total: 48000, paymentMethod: 'NusaPay', distanceKm: 2.4 },
+                { service: 'NusaSend', customerName: 'Siti Rahma', customerPhone: '0821-9090-5511', route: 'Pasar Inpres Tobelo → RSUD Tobelo (Dokumen Penting)', total: 22000, paymentMethod: 'Tunai', distanceKm: 2.1 }
             ];
             const pick = samples[Math.floor(Math.random() * samples.length)];
             const demoOrder = {
@@ -1278,6 +1398,7 @@
                 status: 'MENCARI_DRIVER',
                 driverName: '',
                 plate: '',
+                chats: [],
                 chat: [],
                 isDemo: true
             };
@@ -1338,7 +1459,6 @@
                 return;
             }
 
-            // Simpan rekening default mitra
             driverState.driver.bank = bank;
             driverState.driver.accountNumber = accountNumber;
             driverState.driver.accountHolder = accountHolder;
@@ -1370,25 +1490,21 @@
             renderDriverDashboard();
             closeWithdrawModal();
 
-            try {
-                await fetch(driverState.spreadsheetUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        action: 'withdraw_driver',
-                        withdrawId,
-                        driverName: driverState.driver.name,
-                        driverPhone: driverState.driver.phone,
-                        bank,
-                        accountNumber,
-                        accountHolder,
-                        amount
-                    })
-                });
+            const res = await postToSpreadsheet({
+                action: 'withdraw_driver',
+                withdrawId,
+                driverName: driverState.driver.name,
+                driverPhone: driverState.driver.phone,
+                bank,
+                accountNumber,
+                accountHolder,
+                amount
+            });
+
+            if (res && res.status === 'error') {
+                showToast(res.message || 'Tercatat lokal, namun gagal mengirim ke Spreadsheet.', 'error');
+            } else {
                 showToast(`Penarikan ${formatRupiah(amount)} ke ${bank} (${accountNumber}) berhasil diajukan!`);
-            } catch (err) {
-                showToast('Tercatat lokal, namun gagal mengirim ke Spreadsheet.', 'error');
             }
         }
 
